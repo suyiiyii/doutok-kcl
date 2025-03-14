@@ -9,6 +9,7 @@ schema App:
     port: int
 
 appRender = lambda a: App {
+    """Render app to Deployment and Service"""
     deployment = appsv1.Deployment {
         apiVersion = "apps/v1"
         kind = "Deployment"
