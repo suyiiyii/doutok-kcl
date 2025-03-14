@@ -24,6 +24,11 @@ envs = base.Envs {
     }
 }
 
+https = base.HTTPService {
+    service = "nginxxx"
+    domain = "nginxxx.suyiiyii.top"
+}
+
 deploys = sum([base.appRender(a) for a in apps], [])
 # print(yaml.encode(deploys))
 apps_manifests = [base.envInjector(envs, deploy) for deploy in deploys]
