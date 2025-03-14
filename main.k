@@ -2,18 +2,20 @@ import base
 import yaml
 import manifests
 
-base.App {
-    name = "myapp"
-    replicas = 2
-    image = "myimage"
-    port = 8080
-}
-base.App {
-    name = "myapp122"
-    replicas = 2
-    image = "myimage"
-    port = 8080
-}
+apps = [
+    base.App {
+        name = "nginxxx"
+        replicas = 2
+        image = "nginx"
+        port = 80
+    }
+    base.App {
+        name = "caddyy"
+        replicas = 2
+        image = "caddy"
+        port = 80
+    }
+]
 
 envs = base.Envs {
     envs = {
@@ -22,9 +24,8 @@ envs = base.Envs {
     }
 }
 
-deploys = sum([base.appRender(a) for a in base.App.instances()], [])
+deploys = sum([base.appRender(a) for a in apps], [])
 # print(yaml.encode(deploys))
-
 apps_manifests = [base.envInjector(envs, deploy) for deploy in deploys]
 
 env_manifests = [base.envSecretRender(a) for a in base.Envs.instances()]
