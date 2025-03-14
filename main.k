@@ -15,6 +15,15 @@ base.App {
     port = 8080
 }
 
+base.Envs {
+    envs = {
+        "key1": "value1"
+        "key2": "value2"
+    }
+}
 
+apps_manifests = [base.appRender(a) for a in base.App.instances()]
+
+env_manifests = [base.envSecretRender(a) for a in base.Envs.instances()]
 # base.appRender(a)
-manifests.yaml_stream([base.appRender(a) for a in base.App.instances()])
+manifests.yaml_stream([apps_manifests, env_manifests])
