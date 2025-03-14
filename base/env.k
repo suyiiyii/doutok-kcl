@@ -5,12 +5,14 @@ schema Envs:
     """Env schema"""
     envs: {str:str}
 
+secret_name = "app-env"
+
 envSecretRender = lambda e: Envs {
     secret = corev1.Secret {
         apiVersion = "v1"
         kind = "Secret"
         metadata = {
-            name = "app-sevret"
+            name = secret_name
         }
         stringData = e.envs
     }
@@ -28,7 +30,7 @@ envInjector = lambda envs: Envs, input: appsv1.Deployment | any {
             name = k
             valueFrom = {
                 secretKeyRef = {
-                    name = "app-secret"
+                    name = secret_name
                     key = k
                 }
             }
