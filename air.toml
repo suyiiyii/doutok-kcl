@@ -1,0 +1,8 @@
+# air.toml
+root = "." # 监听的项目目录
+
+[build]
+cmd = "echo 'File changed, running KCL...' && kcl main.k" # 自定义命令
+bin = ""                                                  # 不生成二进制文件
+exclude_dir = ["vendor", "node_modules"]                  # 排除某些目录
+include_ext = ["k"]                                       # 监听 `.k` 文件
