@@ -24,7 +24,7 @@ appRender = lambda a: App {
             template.spec.containers = [
                 {
                     name = a.name
-                    image = "cr.suyiiyii.top/docker.io" + a.image
+                    image = "cr.suyiiyii.top/docker.io/" + a.image
                     ports = [{containerPort = a.port}]
                 }
             ]
