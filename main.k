@@ -6,13 +6,13 @@ apps = [
     base.App {
         name = "nginxxx"
         replicas = 2
-        image = "nginx"
+        image = "library/nginx"
         port = 80
     }
     base.App {
         name = "caddyy"
         replicas = 2
-        image = "caddy"
+        image = "library/caddy"
         port = 80
     }
 ]

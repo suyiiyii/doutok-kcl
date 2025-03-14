@@ -17,12 +17,13 @@ envSecretRender = lambda e: Envs {
     [secret]
 }
 
-envInjector = lambda envs: Envs, deploy {
+envInjector = lambda envs: Envs, input: appsv1.Deployment | any {
     """Inject envs to Deployment"""
-    _result = {}
-    if deploy.kind != "Deployment":
-        _result = deploy
+    _result: any = {}
+    if input.kind != "Deployment":
+        input
     else:
+        deploy: appsv1.Deployment = input as appsv1.Deployment
         secretEnv: [corev1.EnvVar] = [{
             name = k
             valueFrom = {
