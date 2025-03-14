@@ -12,7 +12,7 @@ envSecretRender = lambda e: Envs {
         metadata = {
             name = "app-sevret"
         }
-        data = e.envs
+        stringData = e.envs
     }
     [secret]
 }
