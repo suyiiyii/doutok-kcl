@@ -21,7 +21,7 @@ envInjector = lambda envs: Envs, input: appsv1.Deployment | any {
     """Inject envs to Deployment"""
     _result: any = {}
     if input.kind != "Deployment":
-        input
+        input = _result
     else:
         deploy: appsv1.Deployment = input as appsv1.Deployment
         secretEnv: [corev1.EnvVar] = [{
