@@ -1,5 +1,5 @@
 import base
-
+import yaml
 import manifests
 
 base.App {
@@ -17,15 +17,16 @@ base.App {
 
 envs = base.Envs {
     envs = {
-        "key1": "value1"
-        "key2": "value2"
+        "APP_VAR": "varvalue"
+        "APP_SECRET": "secretvalue"
     }
 }
 
-apps_manifests = [base.envInjector(envs,base.appRender(a)) for a in base.App.instances()]
+deploys = sum([base.appRender(a) for a in base.App.instances()], [])
+print(yaml.encode(deploys))
+
+apps_manifests = [base.envInjector(envs, deploy) for deploy in deploys]
 
 env_manifests = [base.envSecretRender(a) for a in base.Envs.instances()]
-
-
 # base.appRender(a)
 manifests.yaml_stream([apps_manifests, env_manifests])

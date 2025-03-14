@@ -14,20 +14,26 @@ envSecretRender = lambda e: Envs {
         }
         data = e.envs
     }
-    secret
+    [secret]
 }
 
-envInjector = lambda envs: Envs, deploy: appsv1.Deployment {
+envInjector = lambda envs: Envs, deploy {
     """Inject envs to Deployment"""
-    _result: [appsv1.Deployment] = []
+    _result = {}
     if deploy.kind != "Deployment":
-        _result = [deploy]
+        _result = deploy
     else:
-        secretEnv = [{
+        secretEnv: [corev1.EnvVar] = [{
             name = k
-            secret = v
+            valueFrom = {
+                secretKeyRef = {
+                    name = "app-secret"
+                    key = k
+                }
+            }
         } for k, v in envs.envs]
+        print(secretEnv)
         deploy.spec.template.spec.containers[0].env = secretEnv
-        _result = [deploy]
+        _result = deploy
     _result
 }
