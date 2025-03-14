@@ -24,15 +24,17 @@ envs = base.Envs {
     }
 }
 
-https = base.HTTPService {
+http = base.HTTPService {
     service = "nginxxx"
-    domain = "nginxxx.suyiiyii.top"
+    domain = "nginxxx.ve.suyiiyii.top"
 }
 
 deploys = sum([base.appRender(a) for a in apps], [])
-# print(yaml.encode(deploys))
+
 apps_manifests = [base.envInjector(envs, deploy) for deploy in deploys]
+
+ingresses = [base.httpServiceRender(http)]
 
 env_manifests = [base.envSecretRender(a) for a in base.Envs.instances()]
 # base.appRender(a)
-manifests.yaml_stream([apps_manifests, env_manifests])
+manifests.yaml_stream([apps_manifests, env_manifests, ingresses])
