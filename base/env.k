@@ -32,7 +32,6 @@ envInjector = lambda envs: Envs, deploy {
                 }
             }
         } for k, v in envs.envs]
-        print(secretEnv)
         deploy.spec.template.spec.containers[0].env = secretEnv
         _result = deploy
     _result

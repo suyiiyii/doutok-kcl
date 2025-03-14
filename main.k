@@ -23,7 +23,7 @@ envs = base.Envs {
 }
 
 deploys = sum([base.appRender(a) for a in base.App.instances()], [])
-print(yaml.encode(deploys))
+# print(yaml.encode(deploys))
 
 apps_manifests = [base.envInjector(envs, deploy) for deploy in deploys]
 
