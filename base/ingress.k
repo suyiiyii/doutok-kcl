@@ -12,9 +12,6 @@ httpServiceRender = lambda h: HTTPService {
         kind = "Ingress"
         metadata = {
             name = h.service
-            annotations = {
-                "cert-manager.io/issuer": "letsencrypt"
-            }
         }
         spec = {
             rules = [{
@@ -37,4 +34,27 @@ httpServiceRender = lambda h: HTTPService {
         }
     }
     [ingress]
+}
+
+certInjector = lambda input: networkingv1.Ingress | any {
+    """Inject cert to Ingress"""
+    _result: any = {}
+    if input.kind != "Ingress":
+        _result = input
+    else:
+        ingress: networkingv1.Ingress = input as networkingv1.Ingress
+        print(ingress)
+        ingress.metadata.annotations = {"cert-manager.io/issuer" = "letsencrypt"}
+        ingress.spec.tls = [{
+            hosts = [r.host for r in ingress.spec.rules]
+            secretName = "tls-" + ingress.metadata.name
+        }]
+        _result = ingress
+    _result
+}
+
+httpServiceRefine = lambda h: HTTPService {
+    ingress = httpServiceRender(h)
+    ingress2 = certInjector(ingress[0])
+    ingress2
 }
