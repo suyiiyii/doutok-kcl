@@ -29,7 +29,7 @@ http = base.HTTPService {
     domain = prefix + "nginxxx.ve.suyiiyii.top"
 }
 
-prefix = option(prefix, "str", False, "")
+prefix = option("prefix") or "prefix"
 deploys = sum([base.appRender(a) for a in apps], [])
 
 apps_manifests = [base.envInjector(envs, deploy) for deploy in deploys]
@@ -39,4 +39,3 @@ ingresses = [base.httpServiceRefine(http)]
 env_manifests = [base.envSecretRender(a) for a in base.Envs.instances()]
 # base.appRender(a)
 manifests.yaml_stream([apps_manifests, env_manifests, ingresses, base.issuer])
-# print(prefix)
