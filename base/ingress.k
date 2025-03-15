@@ -12,6 +12,9 @@ httpServiceRender = lambda h: HTTPService {
         kind = "Ingress"
         metadata = {
             name = h.service
+            annotations = {
+                "cert-manager.io/issuer": "letsencrypt"
+            }
         }
         spec = {
             rules = [{
