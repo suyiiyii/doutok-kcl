@@ -37,4 +37,4 @@ ingresses = [base.httpServiceRender(http)]
 
 env_manifests = [base.envSecretRender(a) for a in base.Envs.instances()]
 # base.appRender(a)
-manifests.yaml_stream([apps_manifests, env_manifests, ingresses])
+manifests.yaml_stream([apps_manifests, env_manifests, ingresses,base.issuer])
