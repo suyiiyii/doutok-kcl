@@ -43,7 +43,6 @@ certInjector = lambda input: networkingv1.Ingress | any {
         _result = input
     else:
         ingress: networkingv1.Ingress = input as networkingv1.Ingress
-        print(ingress)
         ingress.metadata.annotations = {"cert-manager.io/issuer" = "letsencrypt"}
         ingress.spec.tls = [{
             hosts = [r.host for r in ingress.spec.rules]
